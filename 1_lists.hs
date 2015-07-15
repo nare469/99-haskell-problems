@@ -56,6 +56,12 @@ pack (x:xs) = go [[x]] xs x
     go :: Eq a => [[a]] -> [a] -> a -> [[a]]
     go lst [] _ = lst
     go lst (y:ys) z
-        | y == z    = go ((init lst) ++ (last lst ++ [y])) ys y
+        | y == z    = go ((init lst) ++ [(last lst) ++ [y]]) ys y
         | otherwise = go (lst ++ [[y]]) ys y
 
+--Problem 10
+encode :: Eq a => [a] -> [(Int, a)]
+encode x = map tuplify (pack x)
+    where
+    tuplify :: [b] -> (Int, b)
+    tuplify y = (myLength y, head y)
