@@ -43,3 +43,38 @@ dropEvery x n = go x n 1
         | n == m    = go ys n 1
         | otherwise = y:(go ys n (m+1))
 
+--Problem 17
+split :: [a] -> Int -> ([a], [a])
+split x n = (firstPart x n, lastPart x n)
+    where
+    firstPart :: [a] -> Int -> [a]
+    firstPart _ 0 = []
+    firstPart [] n = error "Index out of range"
+    firstPart (x:xs) n = x:(firstPart xs (n-1))
+    
+    lastPart :: [a] -> Int -> [a]
+    lastPart x 0 = x
+    lastPart [] n = error "Index out of range"
+    lastPart (_:xs) n = lastPart xs (n-1)
+
+--Problem 18
+slice :: [a] -> Int -> Int -> [a]
+slice [] _ _ = []
+slice (x:xs) i j
+    | i <= 1 && j >= 1 = x:(slice xs (i-1) (j-1))
+    | otherwise        = slice xs (i-1) (j-1)
+
+--Problem 19
+rotate :: [a] -> Int -> [a]
+rotate xs 0 = xs
+rotate lst@(x:xs) n = rotate (xs ++ [x]) (n'-1)
+    where n' = mod n (length lst)
+
+--Problem 20
+removeAt' :: Int -> [a] -> [a]
+removeAt' _ [] = []
+removeAt' 1 (x:xs) = xs
+removeAt' n (x:xs) = x:(removeAt' (n-1) xs)
+
+removeAt :: Int -> [a] -> (a, [a])
+removeAt n lst = (lst !! (n-1), removeAt' n lst)
