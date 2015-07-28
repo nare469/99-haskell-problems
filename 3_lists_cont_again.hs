@@ -48,13 +48,19 @@ rnd_permu lst = do
 
 --Problem 26
 
---Wrote my own function, because I forgot what the other one was called
-listConcat :: [a] -> [[a]] -> [[a]]
-listConcat [] _ = []
-listConcat (x:xs) lst = (map (x:) lst) ++ (listConcat xs lst)
-
 combinations :: Int -> [a] -> [[a]]
 combinations 0 _ = [[]]
-combinations n lst = listConcat lst $ combinations (n-1) lst
+combinations n [] = []
+combinations n (x:xs) = map (x:) (combinations (n-1) xs) ++ (combinations n xs)
+
+
+--Problem 27
+combinations' :: Int -> [a] -> [([a],[a])]
+combinations' 0 xs = [([],xs)]
+combinations' n [] = []
+combinations' n (x:xs) = lc1 ++ lc2
+    where
+    lc1 = [((x:ys), zs) | (ys, zs) <- combinations' (n-1) xs]
+    lc2 = [(ys, (x:zs)) | (ys, zs) <- combinations' n xs]
 
 
