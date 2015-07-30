@@ -47,7 +47,6 @@ rnd_permu lst = do
     return $ (lst !! idx):xs
 
 --Problem 26
-
 combinations :: Int -> [a] -> [[a]]
 combinations 0 _ = [[]]
 combinations n [] = []
@@ -63,4 +62,9 @@ combinations' n (x:xs) = lc1 ++ lc2
     lc1 = [((x:ys), zs) | (ys, zs) <- combinations' (n-1) xs]
     lc2 = [(ys, (x:zs)) | (ys, zs) <- combinations' n xs]
 
-
+group :: [Int] -> [a] -> [[[a]]]
+group (n:ns) [] = []
+group [] xs = [[]]
+group (n:ns) xs = [ (fst y):ys | y <- comb, ys <- (group ns (snd y))]
+    where
+    comb = (combinations' n xs)
