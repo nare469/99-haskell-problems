@@ -1,4 +1,5 @@
 import System.Random
+import Data.List hiding (group)
 
 --Problem 21
 insertAt :: a -> [a] -> Int -> [a]
@@ -68,3 +69,20 @@ group [] xs = [[]]
 group (n:ns) xs = [ (fst y):ys | y <- comb, ys <- (group ns (snd y))]
     where
     comb = (combinations' n xs)
+
+--Problem 28
+
+--Part (a)
+
+lsort :: (Ord a) => [[a]] -> [[a]]
+lsort = sortBy (\x y -> compare (length x) (length y))
+
+lf :: [a] -> [[a]] -> Int
+lf i [] = 0
+lf i (x:xs)
+    | (length i) == (length x) = 1 + (lf i xs)
+    | otherwise                = (lf i xs)
+
+--Part (b)
+lfsort :: (Ord a) => [[a]] -> [[a]]
+lfsort arr = sortBy (\x y -> compare (lf x arr) (lf y arr)) arr
