@@ -42,3 +42,17 @@ primeFactors n = go n 2
         | (myGCD n m) == m = m:(go (n `div` m) 2)
         | otherwise        = go n (m+1)
         
+--Skipped a few problems for now
+--
+--Problem 39
+primesR :: Int -> Int -> [Int]
+primesR x y = [z | z <- [x..y], isPrime z]
+
+--Problem 40
+goldbach :: Int -> (Int, Int)
+goldbach n = head [(x,y) | x <- primes, y <- primes, x+y==n]
+    where primes = primesR 2 (n-2)
+
+--Problem 41
+goldbachList :: Int -> Int -> [(Int, Int)]
+goldbachList x y = [goldbach z | z <- [x..y], mod z 2 == 0]
